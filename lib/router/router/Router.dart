@@ -9,7 +9,7 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => const WelcomeScreen());
 
       case RouteNames.registrationScreen:
-        return MaterialPageRoute(builder: (_) => const RegisterScreen());
+        return MaterialPageRoute(builder: (_) => RegisterScreen());
 
       case RouteNames.mainScreen:
         return MaterialPageRoute(builder: (_) => const MainScreen());
@@ -18,14 +18,19 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
 
       case RouteNames.readingScreen:
-        return MaterialPageRoute(builder: (_) => const ReadingScreen());
-
+        {
+          final args = settings.arguments as Map<String, dynamic>?;
+          return MaterialPageRoute(
+            builder: (context) => ReadingScreen(args: args),
+          );
+        }
       case RouteNames.readingHistoryScreen:
         return MaterialPageRoute(builder: (_) => const ReadingHistoryScreen());
 
       case RouteNames.settingsScreen:
         return MaterialPageRoute(builder: (_) => const SettingsScreen());
-
+      case RouteNames.splashScreen:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       default:
         return MaterialPageRoute(builder: (_) => const SettingsScreen());
     }

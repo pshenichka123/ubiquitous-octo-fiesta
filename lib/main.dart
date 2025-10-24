@@ -1,5 +1,10 @@
-import 'package:app/router/Router.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import './controllers/auth_controler/auth_controller.dart';
+import './controllers/theme_controller/theme_controller.dart';
+import './router/Router.dart'; // Import RouteNames
+import './themes/themes.dart';
+import 'controllers/text_controller/text_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,43 +15,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      initialRoute: RouteNames.mainScreen,
-      onGenerateRoute: MyRouter.generateRoute,
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text('', style: Theme.of(context).textTheme.headlineMedium),
-          ],
-        ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthController()),
+        ChangeNotifierProvider(create: (_) => ThemeController()),
+        ChangeNotifierProvider(create: (_) => TextController()),
+      ],
+      child: Consumer<ThemeController>(
+        builder: (context, themeController, child) {
+          return MaterialApp(
+            theme: lightTheme, // Светлая тема
+            darkTheme: darkTheme, // Тёмная тема
+            themeMode: themeController.themeMode,
+            initialRoute: RouteNames.splashScreen, // Начальный маршрут
+            onGenerateRoute: MyRouter.generateRoute, // Генерация маршрутов
+          );
+        },
       ),
     );
   }

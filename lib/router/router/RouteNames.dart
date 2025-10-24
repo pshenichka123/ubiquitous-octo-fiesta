@@ -6,4 +6,5 @@ class RouteNames {
   static const String mainScreen = "/main";
   static const String welcomeScreen = "/welcome";
   static const String settingsScreen = "/settings";
+  static const String splashScreen = '/splashScreen';
 }
