@@ -26,7 +26,7 @@ class TextHistoryItem {
     return {
       'id': id,
       'title': title,
-      'lastReading': lastReading.toIso8601String(),
+      'lastReading': lastReading.toString(),
       'progress': progress,
     };
   }

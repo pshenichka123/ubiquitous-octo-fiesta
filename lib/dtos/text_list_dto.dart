@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'package:sec_try/dtos/text_list_item.dart';
+import 'package:second_try/dtos/text_list_item.dart';
 
-class TextListDto
-{
+class TextListDto {
   late List<TextListItem> items;
 
   TextListDto({required this.items});
@@ -16,9 +15,8 @@ class TextListDto
     final List<dynamic> itemsJson = json['items'] as List<dynamic>;
     final items = itemsJson
         .map(
-          (itemJson) =>
-          TextListItem.fromJson(itemJson as Map<String, dynamic>),
-    )
+          (itemJson) => TextListItem.fromJson(itemJson as Map<String, dynamic>),
+        )
         .toList();
 
     return TextListDto(items: items);

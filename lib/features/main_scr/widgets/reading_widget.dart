@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:sec_try/features/main_scr/widgets/all_texts_widget.dart';
+import 'package:second_try/features/main_scr/widgets/all_texts_widget.dart';
 import '../../../dtos/text_dto.dart';
 import '../../../router/router/RouteNames.dart';
 import 'package:dio/dio.dart';

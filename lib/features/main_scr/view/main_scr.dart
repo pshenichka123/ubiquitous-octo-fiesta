@@ -60,24 +60,26 @@ class MainScreenState extends State<MainScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(15),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(titleList.length, (index) {
-              return CustomDropdown(
-                titleWidget: titleList[index],
-                contentWidget: contentWidgets[index],
-                isExpanded: _expandedIndex == index,
-                availableHeight:
-                    availableHeight -
-                    (titleList.length * (collapsedHeight + 20)),
-                collapsedHeight: collapsedHeight,
-                onTap: () {
-                  setState(() {
-                    _expandedIndex = _expandedIndex == index ? null : index;
-                  });
-                },
-              );
-            }),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(titleList.length, (index) {
+                return CustomDropdown(
+                  titleWidget: titleList[index],
+                  contentWidget: contentWidgets[index],
+                  isExpanded: _expandedIndex == index,
+                  availableHeight:
+                      availableHeight -
+                      (titleList.length * (collapsedHeight + 20)),
+                  collapsedHeight: collapsedHeight,
+                  onTap: () {
+                    setState(() {
+                      _expandedIndex = _expandedIndex == index ? null : index;
+                    });
+                  },
+                );
+              }),
+            ),
           ),
         ),
       ),

@@ -59,53 +59,55 @@ class SettingsWindowState extends State<SettingsWidget> {
     return Center(
       child: _isLoading
           ? const CircularProgressIndicator()
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 190,
-                  child: Center(
-                    child: Text(
-                      'Едят ли мошки кошек? Едят ли кошки мошек?',
-                      style: TextStyle(fontSize: _fontSize),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                Text(
-                  'Размер текста: ${_fontSize.toStringAsFixed(0)}',
-                  style: const TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Slider(
-                    value: _fontSize,
-                    min: 10.0,
-                    max: 50.0,
-                    label: _fontSize.toStringAsFixed(1),
-                    onChanged: (double value) {
-                      setState(() {
-                        _fontSize = value;
-                      });
-                    },
-                  ),
-                ),
-                Center(
-                  child: GestureDetector(
-                    child: Padding(
-                      padding: EdgeInsetsGeometry.symmetric(vertical: 5),
-                      child: GestureDetector(
-                        child: const Text(
-                          "Сохранить",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        onTap: () => _saveFontSize(_fontSize),
+          : SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 190,
+                    child: Center(
+                      child: Text(
+                        'Едят ли мошки кошек? Едят ли кошки мошек?',
+                        style: TextStyle(fontSize: _fontSize),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
-                ),
-                const Center(child: ThemeSwitch()),
-              ],
+                  Text(
+                    'Размер текста: ${_fontSize.toStringAsFixed(0)}',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Slider(
+                      value: _fontSize,
+                      min: 10.0,
+                      max: 50.0,
+                      label: _fontSize.toStringAsFixed(1),
+                      onChanged: (double value) {
+                        setState(() {
+                          _fontSize = value;
+                        });
+                      },
+                    ),
+                  ),
+                  Center(
+                    child: GestureDetector(
+                      child: Padding(
+                        padding: EdgeInsetsGeometry.symmetric(vertical: 5),
+                        child: GestureDetector(
+                          child: const Text(
+                            "Сохранить",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          onTap: () => _saveFontSize(_fontSize),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Center(child: ThemeSwitch()),
+                ],
+              ),
             ),
     );
   }

@@ -77,25 +77,27 @@ class CustomDropdownState extends State<CustomDropdown>
             child: widget.titleWidget,
           ),
         ),
-        ClipRect(
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 400),
-            curve: Curves.easeInOut,
-            height: widget.isExpanded ? widget.availableHeight : 0,
-            width: double.infinity,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: OverflowBox(
-                    minHeight: widget.availableHeight,
-                    maxHeight: widget.availableHeight,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation,
-                      child: widget.contentWidget,
+        SingleChildScrollView(
+          child: ClipRect(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+              height: widget.isExpanded ? widget.availableHeight : 0,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: OverflowBox(
+                      minHeight: widget.availableHeight,
+                      maxHeight: widget.availableHeight,
+                      child: FadeTransition(
+                        opacity: _opacityAnimation,
+                        child: widget.contentWidget,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

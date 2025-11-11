@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:second_try/api/my_dio.dart';
 import '../../../dtos/text_dto.dart';
 import '../../../dtos/text_history_dto.dart';
 import '../../../router/router/RouteNames.dart';
@@ -15,14 +16,7 @@ class ReadingHistoryWidget extends StatefulWidget {
 
 class _ReadingHistoryWidgetState extends State<ReadingHistoryWidget>
     with WidgetsBindingObserver {
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://77.222.53.147:5000/api',
-      connectTimeout: const Duration(seconds: 2),
-      receiveTimeout: const Duration(seconds: 5),
-      headers: {'Content-Type': 'application/json'},
-    ),
-  );
+  final Dio _dio = MyDio.instance();
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   // Кэшируем данные
@@ -101,11 +95,18 @@ class _ReadingHistoryWidgetState extends State<ReadingHistoryWidget>
       final response = await _dio.post('/textById', data: {'id': textId});
       final data = response.data as Map<String, dynamic>;
       TextDto textDto = TextDto.fromJson(data["textDto"]);
-      Navigator.pushNamed(
+      final String? strFontSize = await _storage.read(key: "fontSize");
+      final double fontSize = double.parse(strFontSize!);
+      await Navigator.pushNamed(
         context,
         RouteNames.readingScreen,
-        arguments: {'textDto': textDto, 'progress': progress},
+        arguments: {
+          'textDto': textDto,
+          'progress': progress,
+          'fontSize': fontSize,
+        },
       );
+      await _onRefresh();
     } catch (e) {
       log("error");
       ScaffoldMessenger.of(
@@ -141,7 +142,19 @@ class _ReadingHistoryWidgetState extends State<ReadingHistoryWidget>
     }
 
     if (_history == null || _history!.items.isEmpty) {
-      return const Center(child: Text("История пуста"));
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("История пуста"),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _loadHistory,
+              child: const Text("Повторить"),
+            ),
+          ],
+        ),
+      );
     }
 
     return ListView.builder(
@@ -152,8 +165,10 @@ class _ReadingHistoryWidgetState extends State<ReadingHistoryWidget>
         final item = _history!.items[index];
         return ListTile(
           title: Text(item.title),
-          subtitle: Text('Last read: ${item.lastReading}'),
-          trailing: Text('Progress: ${item.progress.toStringAsFixed(0)}%'),
+          subtitle: Text(
+            'Последнее : ${item.lastReading.year}:${item.lastReading.month}:${item.lastReading.day} ',
+          ),
+          trailing: Text('Прогресс: ${item.progress.toStringAsFixed(0)}%'),
           onTap: () {
             _onPressed(item.id, item.progress);
           },

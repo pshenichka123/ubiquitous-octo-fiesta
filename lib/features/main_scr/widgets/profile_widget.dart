@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:second_try/features/main_scr/widgets/image_widget.dart';
+
+import 'nickname_widget.dart';
 
 class ProfileWidget extends StatefulWidget {
   const ProfileWidget({super.key});
@@ -21,29 +24,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return Row(
+      mainAxisSize: MainAxisSize.max,
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SizedBox(
-              height: 100,
-              width: 100,
-              child: FittedBox(fit: BoxFit.scaleDown),
-            ),
-            SizedBox(width: 40),
-          ],
+        ImageWidget(),
+        Expanded(
+          child: Align(alignment: Alignment.topCenter, child: NicknameWidget()),
         ),
-        TextField(
-          controller: _nicknameFieldController,
-          decoration: InputDecoration(labelText: "Введите ник"),
-        ),
-        TextButton(
-          onPressed: () async {},
-          child: Text('Сменить', style: TextStyle(fontSize: 30)),
-        ),
-        SizedBox(height: 50, width: 50),
       ],
     );
   }
